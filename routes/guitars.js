@@ -1,20 +1,17 @@
 const express = require("express")
 const router = express.Router()
-const Post = require ('../models/Post')
 
-router.get('/', (req, res) => {
+const guitar = require ('../models/guitar')
+
+router.get('/', async (req, res) => {
     try {
-    const cursor = client.db("getVolumes").collection("guitars").find({
+        const cursor = await guitar.find({})
+        res.send(cursor)
+    } catch (err) {
+        res.status(500).json({message: err.message})
     }
-    )
-    res.json(cursor)
-} catch (err) {
-    res.json({message: err})
-}
-    // .sort({ last_review: -1 })
-//     const results = await cursor.toArray();
-//     console.log(results)
-//   res.send('We are in /guitars')
+    // const results = await cursor.toArray();
+    // console.log(results)
 })
 
 
