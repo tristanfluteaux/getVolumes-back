@@ -1,6 +1,10 @@
 const mongoose = require('mongoose')
 
 const guitarSchema = new mongoose.Schema({
+    // _id : {
+    //     type: String,
+    //     required: true
+    // },
     title: {
         type: String,
         required: true
@@ -23,6 +27,10 @@ const guitarSchema = new mongoose.Schema({
     },
     desc: {
         type: String,
+        required: true
+    },
+    img: {
+        type:String,
         required: true
     }
 })

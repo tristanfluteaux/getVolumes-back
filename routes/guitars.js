@@ -3,18 +3,27 @@ const router = express.Router()
 
 const guitar = require ('../models/guitar')
 
+/* Get all */
 router.get('/', async (req, res) => {
     try {
-        const cursor = await guitar.find({})
-        res.send(cursor)
+        const result = await guitar.find({})
+        res.send(result)
+        // const results = await result.toArray();
+        // res.send(results)
     } catch (err) {
         res.status(500).json({message: err.message})
     }
-    // const results = await cursor.toArray();
-    // console.log(results)
 })
 
+/* Get One */
+router.get('/:id', async (req, res) => {
+    const id = req.params.id
+    const result = await guitar.findOne({_id : id})
+    console.log(result)
+    res.send(result)
+})
 
+/* Create one */
 router.post('/', (req, res) => {
     console.log(req.body)
     // const post = new Post({
