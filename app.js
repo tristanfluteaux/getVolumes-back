@@ -23,6 +23,7 @@ app.use(cookieParser())
 app.use('/static', express.static(__dirname + '/public'))
 
 app.use("/guitars", routes.guitars)
+app.use("/auth", routes.login);
 
 app.get('/', (req, res) => {
     res.send('We are in Home')
