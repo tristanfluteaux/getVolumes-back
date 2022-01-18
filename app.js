@@ -1,9 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const routes = require('./routes/index')
 const cors = require('cors')
 const morgan = require('morgan')
 const cookieParser = require('cookie-parser')
+const connection = require('./db-config.js')
 require('dotenv/config');
 
 
@@ -12,9 +12,13 @@ const app = express()
 const port = process.env.PORT || 4000;
 
 
-mongoose.connect(process.env.DB_CONNECTION, () =>
-    console.log('connected to mongoDB')
-)
+connection.connect(err => {
+    if (err) {
+      console.error('error connecting: ' + err.stack)
+    } else {
+      console.log('connected to database with threadId :  ' + connection.threadId)
+    }
+  })
 
 app.use(cors())
 app.use(morgan('tiny'))
