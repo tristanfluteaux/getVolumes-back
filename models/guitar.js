@@ -1,37 +1,20 @@
-const mongoose = require('mongoose')
+const connection = require("../db-config");
+const Joi = require("joi");
 
-const guitarSchema = new mongoose.Schema({
-    // _id : {
-    //     type: String,
-    //     required: true
-    // },
-    title: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: String,
-        required: true
-    },
-    type: {
-        type: String,
-        required: true
-    },
-    color : {
-        type: String,
-        required: true
-    },
-    quantity : {
-        type: String,
-        require: true
-    },
-    desc: {
-        type: String,
-        required: true
-    },
-    img: {
-        type:String,
-        required: true
-    }
-})
-module.exports = mongoose.model('guitars', guitarSchema)
+const db = connection.promise();
+
+//Get all from concept
+const getGuitars = () => {
+  let sql = "SELECT * FROM guitars";
+  return db.query(sql).then(([results]) => results);
+};
+
+const getById = (id) => {
+  let sql = "SELECT * FROM guitars WHERE id = ?";
+  return db.query(sql, [id]).then(([results]) => results[0]);
+};
+
+module.exports = {
+  getGuitars,
+  getById
+};

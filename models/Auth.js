@@ -1,38 +1,38 @@
-const mongoose = require('mongoose')
+const connection = require("../db-config.js");
+const db = connection.promise();
 
-const guitarSchema = new mongoose.Schema({
-    // _id : {
-    //     type: String,
-    //     required: true
-    // },
-    title: {
-        type: String,
-        required: true
-    },
-    price: {
-        type: String,
-        required: true
-    },
-    type: {
-        type: String,
-        required: true
-    },
-    color : {
-        type: String,
-        required: true
-    },
-    quantity : {
-        type: String,
-        require: true
-    },
-    desc: {
-        type: String,
-        required: true
-    },
-    img: {
-        type:String,
-        required: true
-    }
-})
+const findUsers = async () => {
+  try {
+    const users = await db.query("SELECT * FROM users");
+    console.log(users);
+    return users[0];
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
 
-module.exports = mongoose.model('auth', authSchema)
+const findByEmail = async (email) => {
+  try {
+    const user = await db.query("SELECT * FROM users WHERE email = ?", [
+      email,
+    ]);
+    return user[0][0];
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const create = async (email, hashedPassword) => {
+  try {
+    const response = await db.query(
+      "INSERT INTO users (email, user_password) VALUES (?, ?)",
+      [email, hashedPassword]
+    );
+    console.log(response[0]);
+    return response[0];
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+module.exports = { findUsers, findByEmail, create };
