@@ -14,6 +14,17 @@ router.get('/', (req, res) => {
         res.status(500).send('Error retrieving guitars from database')
       })
   })
+  
+  router.get('/type', (req, res) => {
+      guitars.getByType(req.query)
+        .then(guitar => {
+          res.json(guitar)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(500).send('Error retrieving types from database')
+        })
+    })
 
   router.get('/:id', (req, res) => {
     guitars
