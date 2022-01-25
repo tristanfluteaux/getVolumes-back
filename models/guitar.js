@@ -10,7 +10,7 @@ const getGuitars = () => {
 };
 
 const getById = (id) => {
-  let sql = "SELECT * FROM guitars WHERE id = ?";
+  let sql = "SELECT * FROM guitars WHERE id LIKE ?";
   return db.query(sql, [id]).then(([results]) => results[0]);
 };
 const getByType = (type) => {
@@ -18,8 +18,15 @@ const getByType = (type) => {
   return db.query(sql, [type]).then(([results]) => results[0]);
 };
 
+const findByName = (name) => {
+  let sql = "SELECT name FROM guitars WHERE name LIKE ?";
+  return db.query(sql, [name]).then(([results]) => results);
+};
+
+
 module.exports = {
   getGuitars,
   getById,
-  getByType
+  getByType,
+  findByName
 };
