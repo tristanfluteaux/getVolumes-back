@@ -19,7 +19,7 @@ const getByType = (type) => {
 };
 
 const findByName = (name) => {
-  let sql = "SELECT name FROM guitars WHERE name LIKE ?";
+  let sql = "SELECT * FROM guitars WHERE name LIKE ?";
   return db.query(sql, [name]).then(([results]) => results);
 };
 
