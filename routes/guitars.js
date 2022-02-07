@@ -38,7 +38,19 @@ router.get('/', (req, res) => {
         })
         .catch(err => {
           console.log(err)
-          res.status(500).send('Error retrieving thid name from database')
+          res.status(500).send('Error retrieving this name from database')
+        })
+    })
+
+  router.get('/filter/:type', (req, res) => {
+    let sqlValues = '%'+ req.params.type +'%'
+      guitars.getByType(sqlValues)
+        .then(guitar => {
+          res.json(guitar)
+        })
+        .catch(err => {
+          console.log(err)
+          res.status(500).send('Error retrieving this guitar type from database')
         })
     })
 

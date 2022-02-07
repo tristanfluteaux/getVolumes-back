@@ -15,7 +15,7 @@ const getById = (id) => {
 };
 const getByType = (type) => {
   let sql = "SELECT * FROM guitars WHERE type LIKE ?";
-  return db.query(sql, [type]).then(([results]) => results[0]);
+  return db.query(sql, [type]).then(([results]) => results);
 };
 
 const findByName = (name) => {
