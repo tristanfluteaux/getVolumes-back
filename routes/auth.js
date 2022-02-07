@@ -2,7 +2,7 @@ const express = require("express");
 const Auth = require("../models/Auth");
 const router = express.Router();
 const { hashPassword, verifyPassword } = require("../service/Argon2");
-const { createToken } = require("../service/Jwt")
+const { createToken, verifyToken } = require("../service/Jwt")
 
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
@@ -46,5 +46,13 @@ router.post("/login", async (req, res) => {
       return res.status(500).json("Error server");
     }
   });
+
+  router.get('/isUserAuth', verifyToken, async (req, res) => {
+    try {
+      return res.status(200).json('Your Authenticated!')
+    } catch (error) {
+      return res.status(500).json('Wrong token')
+    }
+  })
 
 module.exports = router;
