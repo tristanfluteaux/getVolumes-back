@@ -21,6 +21,21 @@ const findByEmail = async (email) => {
     return Promise.reject(error);
   }
 };
+const findOne = async (id) => {
+  try {
+    const user = await db.query("SELECT * FROM users WHERE id = ?", [
+      id,
+    ]);
+    return user[0][0];
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+const getInfo = async () => {
+  let sql = 'SELECT * FROM users'
+  return  await db.query(sql).then(([results]) => results)
+}
 
 const create = async (email, hashedPassword) => {
   try {
@@ -35,4 +50,4 @@ const create = async (email, hashedPassword) => {
   }
 };
 
-module.exports = { findUsers, findByEmail, create };
+module.exports = { findUsers, findByEmail, create, getInfo, findOne };

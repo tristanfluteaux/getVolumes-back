@@ -3,6 +3,7 @@ const Auth = require("../models/Auth");
 const router = express.Router();
 const { hashPassword, verifyPassword } = require("../service/Argon2");
 const { createToken, verifyToken } = require("../service/Jwt")
+const mysql = require("..//db-config")
 
 router.post("/signin", async (req, res) => {
   const { email, password } = req.body;
@@ -54,5 +55,48 @@ router.post("/login", async (req, res) => {
       return res.status(500).json('Wrong token')
     }
   })
+  router.get('/', (req, res) => {
+    Auth.getInfo(req.query)
+      .then(user => {
+        res.json(user)
+      })
+      .catch(err => {
+        console.log(err)
+        res.status(500).send('Error retrieving users from database')
+      })
+  })
+
+  router.get('/:id', (req, res) => {
+    Auth
+    .findOne(req.params.id)
+    .then(user => {
+      if (!user) res.status(404).json({ message: `user not found` })
+      else res.status(200).json(user)
+    })
+    .catch(err => {
+      console.error(err)
+      res
+      .status(500)
+      .json({ message: 'Error retrieving this user from database' })
+    })
+  })
+
+
+
+  router.put('/:id', (req, res) => {
+    const  id  = req.params.id
+    const infoToUpdate = req.body;
+    const sql = 'UPDATE users SET ? WHERE id = ?'
+    console.log(req.body)
+    mysql.query(sql, [infoToUpdate, id],  (err, result) => {
+        if (err) {
+          console.log(err)
+            res.status(500).send('Error updating users from db')
+        } else {
+            console.table(result)
+            res.status(200).json(result)
+        }
+    })
+})
 
 module.exports = router;
