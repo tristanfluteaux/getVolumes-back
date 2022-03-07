@@ -1,4 +1,4 @@
-const guitars = require('./guitars')
-const login = require('./auth')
+const guitars = require("./guitars");
+const login = require("./auth");
 
-module.exports = { guitars, login }
+module.exports = { guitars, login };
