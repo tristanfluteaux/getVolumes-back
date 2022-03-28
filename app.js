@@ -28,6 +28,7 @@ app.use("/static", express.static(__dirname + "/public"));
 
 app.use("/guitars", routes.guitars);
 app.use("/auth", routes.login);
+app.use("/orders", routes.orders);
 
 app.get("/", (req, res) => {
   res.send("We are in Home");
